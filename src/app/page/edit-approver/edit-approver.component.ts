@@ -9,6 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { storage } from 'firebase';
 import { ToastsManager } from 'ng2-toastr';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Gallery } from '../../model/gallery';
 
 
 @Component({
@@ -19,10 +20,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class EditApproverComponent implements OnInit {
 
   approverForm:FormGroup;
-  approver:Approver;
+  approver:Approver={email:'',firstName:'',jobPosition:'',lastName:"",pictureProfile:"",sort:0,statust:true,titleName:"",token:""};
   uploadedImage: File;
   imagePreview: string;
-
+  img:Gallery[]=[];
   submit:boolean=true;
 
   constructor(
@@ -97,7 +98,7 @@ export class EditApproverComponent implements OnInit {
         result => {
           this.uploadedImage = new File([result], result.name);
           this.getImagePreview(this.uploadedImage);
-          
+          console.log('😢 Oh no!', this.uploadedImage);
         },
         error => {
           console.log('😢 Oh no!', error);
@@ -116,8 +117,9 @@ export class EditApproverComponent implements OnInit {
       let name = 'img'+Date.now();      
       const picture = storage().ref().child('images/img/'+name+'.jpg');
       picture.putString(reader.result,'data_url').then(res=>{
-        console.log('picture:',res); 
-        this.approver.pictureProfile =  res.downloadURL; 
+        console.log('picture:',res);
+        this.approver.pictureProfile =  res.downloadURL;
+        
       }).catch(e=>{
         console.error(e);        
       })  
@@ -125,6 +127,60 @@ export class EditApproverComponent implements OnInit {
     };
   }
 
+
+  onFileGalery(event) {
+    
+    if(event.target.files && event.target.files.length > 0) {
+      let file = event.target.files[0];
+      this.ng2ImgMax.resizeImage(file,200,200,false).subscribe(
+        result => {
+          this.uploadedImage = new File([result], result.name);
+          this.getGaleryPreview(this.uploadedImage);
+          
+        },
+        error => {
+          console.log('😢 Oh no!', error);
+        }
+      );
+      
+    }
+  }
+
+  getGaleryPreview(file: File) {
+    const reader: FileReader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      //this.imagePreview = reader.result;
+      console.log('reader',reader.result);      
+      let name = 'img'+Date.now();      
+      const picture = storage().ref().child('images/galery/'+name+'.jpg');
+      picture.putString(reader.result,'data_url').then(res=>{
+        console.log('picture:',res); 
+
+         if(this.approver.gallery){
+          this.approver.gallery.push({image:res.downloadURL});
+         }else{
+          this.img.push({image:res.downloadURL});
+          this.approver.gallery = this.img;
+         }  
+        
+        console.log("Gallery",this.approver.gallery);
+      }).catch(e=>{
+        console.error(e);        
+      })  
+         
+    };
+  }
+
+  remove(index){
+    console.log(index);
+    // splice(ตำแหน่งที่ลบ,จำนวนที่จะลบ)
+    let res = this.approver.gallery.splice(index,1);
+    console.log(res);    
+    console.log("gallery====",this.approver.gallery);
+    
+    
+  }
   
 
 }

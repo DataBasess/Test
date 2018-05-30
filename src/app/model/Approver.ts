@@ -1,3 +1,5 @@
+import { Gallery } from "./gallery";
+
 export interface Approver {
     $key?:string;
     email:string;
@@ -9,4 +11,5 @@ export interface Approver {
     statust:boolean;
     token:string;
     sort:number;
+    gallery?:Gallery[];
 }

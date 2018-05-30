@@ -43,6 +43,7 @@ import { ProfileComponent } from './page/profile/profile.component';
 import { NotifyService } from './service/notify.service';
 import { ProfileApproverComponent } from './page/profile-approver/profile-approver.component';
 import { LoadingModule } from 'ngx-loading';
+import { ApiYoutubePipe } from './pipe/api-youtube.pipe';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { LoadingModule } from 'ngx-loading';
     ApprovePersonalComponent,
     PersonalComponent,
     ProfileComponent,
-    ProfileApproverComponent
+    ProfileApproverComponent,
+    ApiYoutubePipe       
   ],
   imports: [
     BrowserModule,
@@ -89,7 +91,7 @@ import { LoadingModule } from 'ngx-loading';
     ApproverService,
     UploadsService,
     PersonalService,
-    NotifyService
+    NotifyService,
   ],
   bootstrap: [AppComponent]
 })

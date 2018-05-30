@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Pipe } from '@angular/core';
 import { User } from '../../model/User';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -23,13 +23,23 @@ export class ApproverComponent implements OnInit {
   old_sort:number;
   nextsort:number;
 
+  vedios=[
+    {id:"UpHHPkLkoG8"},
+    {id:"UpHHPkLkoG8"},
+    {id:"UpHHPkLkoG8"},
+    {id:"UpHHPkLkoG8"},
+    {id:"UpHHPkLkoG8"},
+  ]
+
+  link="UpHHPkLkoG8";
+  
   constructor(
     private angularFireAuth:AngularFireAuth,
     public router:Router,
     private route: ActivatedRoute,
     private approverService:ApproverService,
     public toastr: ToastsManager, 
-    vcr: ViewContainerRef
+    vcr: ViewContainerRef,
   ) {
     this.toastr.setRootViewContainerRef(vcr);
    }

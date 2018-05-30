@@ -27,7 +27,8 @@ export class ApproverService {
       pictureProfile:' ',
       statust:true,
       token:' ',
-      sort: numObject
+      sort: numObject,
+      gallery:[]
     }
     return this.database.object('approver/'+uid).set(this.approver);
   }

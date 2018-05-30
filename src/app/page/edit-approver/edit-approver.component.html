@@ -41,7 +41,15 @@
             <input type="hidden" id="avatar" [(ngModel)]="approver.jobPosition" value="approver"   class="form-control" required>
           </div>
           <!-- <img *ngIf="imagePreview"[src]="sanitizer.bypassSecurityTrustUrl(imagePreview)"> -->
-          <img  [src]="approver.pictureProfile" class="img-responsive">
+          <img  [src]="approver.pictureProfile" style="width: 200px; height: 200px;" class="img-responsive">
+
+          <div class="form-group">
+            <label>Gallery</label>
+            <input type="file" id="avatar"   (change)="onFileGalery($event)"  class="form-control" required>
+          </div>
+          <img *ngFor="let img of approver.gallery; let i = index" (click)="remove(i)" [src]="img.image" style="width: 200px; height: 200px;" class="img-responsive">
+
+
           <button *ngIf="submit" type="button" (click)="update(approver)"    class="btn btn-success  float-right"  >Update</button>
           <button *ngIf="!submit" type="button" (click)="checkName()"  class="btn btn  float-right"  >Update</button>
     </div>
